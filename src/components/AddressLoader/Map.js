@@ -142,6 +142,18 @@ class Map extends Component {
 
 	};
 
+	successMessage = () => {
+		toast.success('Endereço preenchido 📍', {
+			position: "top-right",
+			autoClose: 3000,
+			hideProgressBar: false,
+			closeOnClick: true,
+			pauseOnHover: true,
+			draggable: true,
+			progress: undefined,
+		});
+	}
+
 	/**
 	 * When the marker is dragged you get the lat and long using the functions available from event object.
 	 * Use geocode to get the address, city, area and state from the lat and lng positions.
@@ -149,12 +161,17 @@ class Map extends Component {
 	 *
 	 * @param event
 	 */
-	onMarkerDragEnd = ( event ) => {
+	onMarkerDragEnd = ( event, orderContainer ) => {
+		
 		let newLat = event.latLng.lat(),
-		    newLng = event.latLng.lng();
-
+		newLng = event.latLng.lng();
+		
 		Geocode.fromLatLng( newLat , newLng ).then(
 			response => {
+				console.log(response.results[0].place_id)
+				orderContainer.setAddressPlaceholder(response.results[0].formatted_address)
+				orderContainer.setAddressLink(`https://www.google.com/maps/search/?api=1&query=Google&query_place_id=${response.results[0].place_id}`)
+				this.successMessage()
 				const address = response.results[0].formatted_address,
 				      addressArray =  response.results[0].address_components,
 				      city = this.getCity( addressArray ),
@@ -236,7 +253,7 @@ class Map extends Component {
 									<Marker google={this.props.google}
 											name={'Dolores park'}
 											draggable={true}
-											onDragEnd={ this.onMarkerDragEnd }
+											onDragEnd={(event) => this.onMarkerDragEnd(event, orderContainer) }
 											position={{ lat: this.state.markerPosition.lat, lng: this.state.markerPosition.lng }}
 									/>
 									<Marker />
@@ -254,15 +271,7 @@ class Map extends Component {
 											this.onPlaceSelected(place)
 											orderContainer.setAddressPlaceholder(place.formatted_address)
 											orderContainer.setAddressLink(`https://www.google.com/maps/search/?api=1&query=Google&query_place_id=${place.place_id}`)
-											toast.success('Endereço preenchido 📍', {
-												position: "top-right",
-												autoClose: 3000,
-												hideProgressBar: false,
-												closeOnClick: true,
-												pauseOnHover: true,
-												draggable: true,
-												progress: undefined,
-											});
+											this.successMessage()
 										}}
 										types={['(regions)']}
 									/>

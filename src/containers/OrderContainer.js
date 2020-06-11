@@ -5,11 +5,13 @@ class OrderContainer extends Container {
     orderDetails: '',
     addressPlaceholder: 'Adicione o endereço de entrega..',
     addressLink: '',
+    addressDescription: '',
     bag: [],
     total: 0,
     companyTitle: 'Delivery do Fran6',
     companyDescription: 'Rua Janary Nunes 815, Infraero 1, Macapá-AP',
     companyContact: '559692082016',
+    orderOwner: '',
   }
 
   formatPrice(price) {
@@ -36,19 +38,28 @@ class OrderContainer extends Container {
       }
     })
   }
-  clearBag() {this.setState({bag: []})}
+  clearOrder() {this.setState({
+    bag: [], 
+    orderOwner: '',
+    orderDetails: '',
+    addressPlaceholder: 'Adicione o endereço de entrega..'
+  })}
 
   setOrderDetails(orderDetails) {this.setState({orderDetails})}
+  setOrderOwner(orderOwner) {this.setState({orderOwner})}
   setAddressPlaceholder(addressPlaceholder) {this.setState({addressPlaceholder})}
   setAddressLink(addressLink) {this.setState({addressLink})}
 
   getOrderLink() {
-    let message = ''
-    this.state.bag.forEach(item => message += item.name + ', ')
-    console.log(this.state)
+    let itens = ''
+    this.state.bag.forEach(item => itens += item.name + ', ')
     return 'https://wa.me/' + 
       this.state.companyContact + 
-      '?text=Pedido de entrega para o Fran6: ' + message + 'no endereço ' + this.state.addressLink
+      `?text=Pedido para *${this.state.orderOwner}*: ` + itens + '%0a' +
+      `*Endereço*: ${this.state.addressPlaceholder}%0a` +
+      `*Pedido as*: ${new Date(new Date().toLocaleString("pt-BR", {timeZone: "America/Sao_Paulo"}))}%0a` +
+      `*OBS*: ${this.state.orderDetails}%0a` +
+      this.state.addressLink
   }
 }
 

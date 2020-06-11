@@ -4,6 +4,7 @@ import Toast from './Toast'
 import {toast} from 'react-toastify'
 import {Subscribe} from 'unstated'
 import OrderContainer from '../containers/OrderContainer'
+import FinishOrderModal from './FinishOrderModal'
 import NumberFormat from 'react-number-format'
 
 class Bag extends React.Component {
@@ -72,19 +73,7 @@ class Bag extends React.Component {
                                         /></b>
                                     </Table.Cell>
                                     <Table.Cell>
-                                    <Button
-                                        color='green'
-                                        disabled={
-                                            !(orderContainer.state.bag.length != 0 &&
-                                            orderContainer.state.addressPlaceholder != 'Adicione o endereço de entrega..')
-                                        }
-                                        onClick={() => {
-                                            window.open(orderContainer.getOrderLink(), "_blank")
-                                            orderContainer.clearBag()
-                                        }}
-                                    >
-                                        <Icon name='whatsapp' /> Finalizar Pedido
-                                    </Button>
+                                        <FinishOrderModal/>
                                     </Table.Cell>
                                 </Table.Row>
                             </Table.Body>                                        
