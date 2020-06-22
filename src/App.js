@@ -1,18 +1,17 @@
-import React from 'react';
-import './App.css';
-import {Card, Container, Divider, Header, Icon} from 'semantic-ui-react'
-import Banner from './components/Banner'
-import ProductCard from './components/ProductCard'
-import AddressLoader from './components/AddressLoader/Home'
-import Bag from './components/Bag'
-import IntroMessage from './components/IntroMessage'
-import Toast from './components/Toast'
-import {Subscribe} from 'unstated'
-import ProductsContainer from './containers/ProductsContainer'
-import {toast, ToastContainer} from 'react-toastify'
+import React from "react";
+import "./App.css";
+import { Card, Container, Divider, Header, Icon } from "semantic-ui-react";
+import Banner from "./components/Banner";
+import ProductCard from "./components/ProductCard";
+import AddressLoader from "./components/AddressLoader";
+import Bag from "./components/Bag";
+import IntroMessage from "./components/IntroMessage";
+import Toast from "./components/Toast";
+import { Subscribe } from "unstated";
+import ProductsContainer from "./containers/ProductsContainer";
+import { toast, ToastContainer } from "react-toastify";
 
 class App extends React.Component {
-
   orderAdded(name) {
     toast.success(`${name} adicionado 🍔`, {
       position: "top-right",
@@ -28,22 +27,31 @@ class App extends React.Component {
   render() {
     return (
       <Subscribe to={[ProductsContainer]}>
-        {productsContainer => (
+        {(productsContainer) => (
           <div className="App">
-            <Banner/>
+            <Banner />
             <Container>
-              <IntroMessage/>
-              <Header as='h3'><Icon name='food' color='orange'/> Adicione o(s) item(s) desejado(s)</Header>
+              <IntroMessage />
+              <Header as="h3">
+                <Icon name="food" color="orange" /> Adicione o(s) item(s)
+                desejado(s)
+              </Header>
               <Card.Group centered>
-                {productsContainer.state.products.map((product, index) => <ProductCard id={index} product={product} showAlert={this.orderAdded}/>)}
+                {productsContainer.state.products.map((product, index) => (
+                  <ProductCard
+                    id={index}
+                    product={product}
+                    showAlert={this.orderAdded}
+                  />
+                ))}
               </Card.Group>
             </Container>
-            <Divider/>
-            <AddressLoader/>
-            <Divider/>
-            <Bag/>
+            <Divider />
+            <AddressLoader />
+            <Divider />
+            <Bag />
 
-            <Toast/>
+            <Toast />
           </div>
         )}
       </Subscribe>
