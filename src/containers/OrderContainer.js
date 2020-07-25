@@ -13,7 +13,7 @@ class OrderContainer extends Container {
     total: 0,
     companyTitle: "Delivery do Fran6",
     companyDescription: "Rua Janary Nunes 815, Infraero 1, Macapá-AP",
-    companyContact: "5541998943368",
+    companyContact: "5596992082016",
     orderOwner: "",
   };
 
